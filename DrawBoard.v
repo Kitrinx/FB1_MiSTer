@@ -721,26 +721,26 @@ Name3 <= (CounterX>=Name3PositionX+0*2) && (CounterX<=Name3PositionX+5*2) && (Co
 
 
 				if (Status == 0) begin
-				R_Board_on = ScoreBoardWhite | ScoreText | BestText | BestWhiteUnit | BestWhiteTen;
-				G_Board_on = ScoreBoardWhite | BestWhiteUnit | BestWhiteTen;
-				B_Board_on = ScoreBoardWhite | BestWhiteUnit | BestWhiteTen;
+				R_Board_on <= ScoreBoardWhite | ScoreText | BestText | BestWhiteUnit | BestWhiteTen;
+				G_Board_on <= ScoreBoardWhite | BestWhiteUnit | BestWhiteTen;
+				B_Board_on <= ScoreBoardWhite | BestWhiteUnit | BestWhiteTen;
 
-				R_Board_off = ScoreBoardBlack | BestBlackUnit | BestBlackTen;
-				G_Board_off = ScoreBoardBlack | ScoreText | BestText | BestBlackUnit | BestBlackTen;
-				B_Board_off = ScoreBoardBlack | ScoreText | BestText | BestBlackUnit | BestBlackTen;
+				R_Board_off <= ScoreBoardBlack | BestBlackUnit | BestBlackTen;
+				G_Board_off <= ScoreBoardBlack | ScoreText | BestText | BestBlackUnit | BestBlackTen;
+				B_Board_off <= ScoreBoardBlack | ScoreText | BestText | BestBlackUnit | BestBlackTen;
 				end
 
 				if (!Button && Start == 0) Start <= 1;
 				if (!Reset) Start <= 0;
 
 				if (Start == 0) begin
-				R_Board_on = LogoWhite | LogoYellow;
-				G_Board_on = LogoWhite | LogoYellow | LogoGreen;
-				B_Board_on = LogoWhite;
+				R_Board_on <= LogoWhite | LogoYellow;
+				G_Board_on <= LogoWhite | LogoYellow | LogoGreen;
+				B_Board_on <= LogoWhite;
 
-				R_Board_off = LogoBlack | LogoGreen | Name0 | Name1 | Name2 | Name3;
-				G_Board_off = LogoBlack| Name0 | Name1 | Name2  | Name3;
-				B_Board_off = LogoBlack | LogoYellow | LogoGreen | Name0 | Name1 | Name2  | Name3;
+				R_Board_off <= LogoBlack | LogoGreen | Name0 | Name1 | Name2 | Name3;
+				G_Board_off <= LogoBlack| Name0 | Name1 | Name2  | Name3;
+				B_Board_off <= LogoBlack | LogoYellow | LogoGreen | Name0 | Name1 | Name2  | Name3;
 				end
 
 

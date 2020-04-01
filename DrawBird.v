@@ -42,14 +42,14 @@ begin
 			begin
 			Gravity <= 0;
 			BirdPositionY <= BirdPositionY - ForceUp;
-			if (ForceUp<5) ForceUp <= ForceUp + 1;
+			if (ForceUp<5) ForceUp <= ForceUp + 1'd1;
 		end
 		else if (BirdPositionY > 385) BirdPositionY <= 390;
 		else if ((BirdPositionY < 390 && Start == 1) || Status == 0)
 			begin
 			ForceUp <= 0;
 			BirdPositionY <= BirdPositionY + Gravity;
-			if (Gravity<10) Gravity <= Gravity + 1;
+			if (Gravity<10) Gravity <= Gravity + 1'd1;
 			end
 		else if(BirdPositionY < 8) BirdPositionY <= 8;
 end
@@ -59,7 +59,7 @@ begin
 		if (BirdAnimation == 2 || !Reset) BirdAnimation <= 0;
 		else if (Gravity > 0 && Status == 0) BirdAnimation <= 3;
 		else if (Gravity > 0) BirdAnimation <= 0;
-		else if (BirdAnimation < 2) BirdAnimation <= BirdAnimation + 1;
+		else if (BirdAnimation < 2) BirdAnimation <= BirdAnimation + 1'd1;
 end
 //////////////////////////////////////////////////////////////////////////////////
 reg BirdBlack,BirdWhite,BirdYellow,BirdRed;
@@ -446,13 +446,13 @@ BirdRed <= (CounterX>=BirdPositionX+30) && (CounterX<=BirdPositionX+48) && (Coun
 ||          (CounterX>=BirdPositionX+30) && (CounterX<=BirdPositionX+45) && (CounterY>=BirdPositionY+27) && (CounterY<=BirdPositionY+30);
 end
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-R_Bird_on = BirdWhite | BirdRed | BirdYellow;
-G_Bird_on =	BirdWhite | BirdYellow;
-B_Bird_on =	BirdWhite;
+R_Bird_on <= BirdWhite | BirdRed | BirdYellow;
+G_Bird_on <=	BirdWhite | BirdYellow;
+B_Bird_on <=	BirdWhite;
 
-R_Bird_off = BirdBlack;
-G_Bird_off = BirdRed | BirdBlack;
-B_Bird_off = BirdRed | BirdYellow | BirdBlack;
+R_Bird_off <= BirdBlack;
+G_Bird_off <= BirdRed | BirdBlack;
+B_Bird_off <= BirdRed | BirdYellow | BirdBlack;
 
 end
 endmodule

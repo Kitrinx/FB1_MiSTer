@@ -32,12 +32,12 @@ begin
 	if (Start == 0 && !Button) Start <= 1;
 
 	if (TopPipesPositionX == 0) TopPipesPositionX <= 640;
-	else if (Start && Status) TopPipesPositionX <= TopPipesPositionX - 1;
+	else if (Start && Status) TopPipesPositionX <= TopPipesPositionX - 1'd1;
 
 	PipesPosition <= TopPipesPositionX;
 	TopPipesPositionY <= PipesLong;
 	BotPipesPositionX <= TopPipesPositionX;
-	BotPipesPositionY <= TopPipesPositionY + 150;
+	BotPipesPositionY <= TopPipesPositionY + 16'd150;
 
 	if (!Reset)
 	begin
@@ -111,12 +111,13 @@ PipesBlackBot <= (CounterX>=BotPipesPositionX+0) && (CounterX<=BotPipesPositionX
 PipesGreenBot <= (CounterX>=BotPipesPositionX+3) && (CounterX<=BotPipesPositionX+87) && (CounterY>=BotPipesPositionY+3) && (CounterY<=BotPipesPositionY+30);
 
 
-G_Pipes_on = PipesGreenTop | PipesGreenBodyTop | PipesGreenBot | PipesGreenBodyBot;
+G_Pipes_on <= PipesGreenTop | PipesGreenBodyTop | PipesGreenBot | PipesGreenBodyBot;
+R_Pipes_on <= 0;
+B_Pipes_on <= 0;
 
-
-R_Pipes_off = PipesBlackTop | PipesGreenTop | PipesBlackBodyTop | PipesGreenBodyTop | PipesBlackBot | PipesGreenBot | PipesBlackBodyBot | PipesGreenBodyBot;
-G_Pipes_off = PipesBlackTop | PipesBlackBodyTop | PipesBlackBot | PipesBlackBodyBot;
-B_Pipes_off = PipesBlackTop | PipesGreenTop | PipesBlackBodyTop | PipesGreenBodyTop | PipesBlackBot | PipesGreenBot | PipesBlackBodyBot | PipesGreenBodyBot;
+R_Pipes_off <= PipesBlackTop | PipesGreenTop | PipesBlackBodyTop | PipesGreenBodyTop | PipesBlackBot | PipesGreenBot | PipesBlackBodyBot | PipesGreenBodyBot;
+G_Pipes_off <= PipesBlackTop | PipesBlackBodyTop | PipesBlackBot | PipesBlackBodyBot;
+B_Pipes_off <= PipesBlackTop | PipesGreenTop | PipesBlackBodyTop | PipesGreenBodyTop | PipesBlackBot | PipesGreenBot | PipesBlackBodyBot | PipesGreenBodyBot;
 
 end
 endmodule

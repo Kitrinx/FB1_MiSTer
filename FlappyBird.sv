@@ -103,8 +103,9 @@ module emu
 );
 
 assign ADC_BUS  = 'Z;
+assign USER_OUT = '1;
 
-assign AUDIO_S   = 1'b0;
+assign AUDIO_S   = 0;
 assign AUDIO_L   = audio;
 assign AUDIO_R   = AUDIO_L;
 assign AUDIO_MIX = 0;
@@ -114,8 +115,8 @@ assign LED_DISK  = 0;
 assign LED_POWER = 0;
 assign BUTTONS   = 0;
 
-assign VIDEO_ARX = status[8] ? 8'd16 : 4;
-assign VIDEO_ARY = status[8] ? 8'd9  : 3;
+assign VIDEO_ARX = status[8] ? 8'd16 : 8'd4;
+assign VIDEO_ARY = status[8] ? 8'd9  : 8'd3;
 
 assign VGA_F1 = 0;
 assign {UART_RTS, UART_TXD, UART_DTR} = 0;
@@ -126,40 +127,17 @@ assign {SD_SCK, SD_MOSI, SD_CS} = 'Z;
 `include "build_id.v"
 parameter CONF_STR = {
 	"FLAPPY;;",
+	"-;",
 	"O8,Aspect Ratio,4:3,16:9;",
 	"-;",
 	"R0,Reset;",
 	"J1,Flap,Reset;",
-	"jn,Flap,Reset;",
-	"jp,Flap,Reset;",
+	"jn,A,B;",
+	"jp,A,B;",
 	"V,v",`BUILD_DATE
 };
 
 wire reset = RESET | status[0] | buttons[1];
-
-
-reg  [31:0] sd_lba;
-reg         sd_rd = 0;
-reg         sd_wr = 0;
-wire        sd_ack;
-wire  [8:0] sd_buff_addr;
-wire  [7:0] sd_buff_dout;
-wire  [7:0] sd_buff_din;
-wire        sd_buff_wr;
-wire        img_mounted;
-wire        img_readonly;
-wire [63:0] img_size;
-
-wire  [7:0] filetype;
-wire        ioctl_downloading;
-reg         ioctl_download;
-wire [24:0] ioctl_addr;
-reg         ioctl_wait;
-
-wire [24:0] ps2_mouse;
-wire [15:0] joy_analog0, joy_analog1;
-wire  [7:0] pdl[4];
-wire        forced_scandoubler;
 
 wire [21:0] gamma_bus;
 wire [63:0] status;
@@ -174,27 +152,20 @@ hps_io #(.STRLEN(($size(CONF_STR)>>3))) hps_io
 	.conf_str(CONF_STR),
 
 	.buttons(buttons),
-	.forced_scandoubler(forced_scandoubler),
 
 	.joystick_0(joyA),
 
 	.status(status),
-	.status_menumask(),
-
 	.gamma_bus(gamma_bus)
 );
 
 
-wire clock_locked;
 wire clk;
 
 pll pll
 (
 	.refclk(CLK_50M),
-	.rst(0),
-	.outclk_0(clk),
-	.outclk_1(),
-	.locked(clock_locked)
+	.outclk_0(clk)
 );
 
 wire [15:0] audio = {1'b0, speaker, 14'd0};
@@ -216,34 +187,27 @@ TopModule Flappy (
 	.Speaker(speaker)
 );
 
-wire [2:0] scale = status[3:1];
-
 assign VGA_F1 = 0;
+assign VGA_SL = 0;
 assign CLK_VIDEO = clk;
+assign CE_PIXEL = 1;
 
-video_mixer #(.LINE_LENGTH(640), .HALF_DEPTH(0), .GAMMA(1)) video_mixer
+gamma_fast gamma
 (
-	.*,
-
-	.clk_vid(clk),
+	.clk_vid(CLK_VIDEO),
 	.ce_pix(1),
-	.ce_pix_out(CE_PIXEL),
 
-	.scanlines(0),
-	.scandoubler(0),
-	.hq2x(0),
+	.gamma_bus(gamma_bus),
 
-	.mono(0),
-
-	.R({1'b0, {15{red}}}),
-	.G({1'b0, {15{green}}}),
-	.B({1'b0, {15{blue}}}),
-
-	// Positive pulses.
 	.HSync(hsync),
 	.VSync(vsync),
-	.HBlank(hblank),
-	.VBlank(vblank)
+	.DE(~(hblank | vblank)),
+	.RGB_in({{8{red}}, {8{green}}, {8{blue}}}),
+
+	.HSync_out(VGA_HS),
+	.VSync_out(VGA_VS),
+	.DE_out(VGA_DE),
+	.RGB_out({VGA_R, VGA_G, VGA_B})
 );
 
 

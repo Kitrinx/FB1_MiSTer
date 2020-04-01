@@ -895,12 +895,12 @@ GlassGreen <=   (CounterX>=GlassPositionX+6*3) && (CounterX<=GlassPositionX+9*3)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-R_OnBackground_on = Cloud;
-G_OnBackground_on = Cloud | TownBlue | GlassGreen;
-B_OnBackground_on = Cloud | TownBlue;
+R_OnBackground_on <= Cloud;
+G_OnBackground_on <= Cloud | TownBlue | GlassGreen;
+B_OnBackground_on <= Cloud | TownBlue;
 
-R_OnBackground_off = TownBlue | GlassBlack | GlassGreen;
-G_OnBackground_off = GlassBlack;
-B_OnBackground_off = GlassBlack | GlassGreen;
+R_OnBackground_off <= TownBlue | GlassBlack | GlassGreen;
+G_OnBackground_off <= GlassBlack;
+B_OnBackground_off <= GlassBlack | GlassGreen;
 end
 endmodule

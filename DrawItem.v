@@ -266,13 +266,13 @@ FlowerGreen <= (CounterX>=FlowerPositionX+2*3) && (CounterX<=FlowerPositionX+5*3
 
 
 
-R_Item_on = MushroomWhite | MushroomRed | StarYellow | FlowerRed;
-G_Item_on =	MushroomWhite | StarYellow | FlowerGreen;
-B_Item_on =	MushroomWhite;
+R_Item_on <= MushroomWhite | MushroomRed | StarYellow | FlowerRed;
+G_Item_on <=	MushroomWhite | StarYellow | FlowerGreen;
+B_Item_on <=	MushroomWhite;
 
-R_Item_off = MushroomBlack | StarBlack | FlowerBlack | FlowerGreen ;
-G_Item_off = MushroomBlack | MushroomRed | StarBlack | FlowerBlack | FlowerRed;
-B_Item_off = MushroomBlack | MushroomRed | StarBlack | StarYellow | FlowerBlack | FlowerRed | FlowerGreen ;
+R_Item_off <= MushroomBlack | StarBlack | FlowerBlack | FlowerGreen ;
+G_Item_off <= MushroomBlack | MushroomRed | StarBlack | FlowerBlack | FlowerRed;
+B_Item_off <= MushroomBlack | MushroomRed | StarBlack | StarYellow | FlowerBlack | FlowerRed | FlowerGreen ;
 
 end
 endmodule

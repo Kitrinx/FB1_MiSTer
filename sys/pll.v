@@ -8,17 +8,14 @@
 module pll (
 		input  wire  refclk,   //  refclk.clk
 		input  wire  rst,      //   reset.reset
-		output wire  outclk_0, // outclk0.clk
-		output wire  outclk_1, // outclk1.clk
-		output wire  locked    //  locked.export
+		output wire  outclk_0  // outclk0.clk
 	);
 
 	pll_0002 pll_inst (
 		.refclk   (refclk),   //  refclk.clk
 		.rst      (rst),      //   reset.reset
 		.outclk_0 (outclk_0), // outclk0.clk
-		.outclk_1 (outclk_1), // outclk1.clk
-		.locked   (locked)    //  locked.export
+		.locked   ()          // (terminated)
 	);
 
 endmodule
@@ -61,9 +58,9 @@ endmodule
 // Retrieval info: 	<generic name="gui_feedback_clock" value="Global Clock" />
 // Retrieval info: 	<generic name="gui_fractional_cout" value="32" />
 // Retrieval info: 	<generic name="gui_dsm_out_sel" value="1st_order" />
-// Retrieval info: 	<generic name="gui_use_locked" value="true" />
+// Retrieval info: 	<generic name="gui_use_locked" value="false" />
 // Retrieval info: 	<generic name="gui_en_adv_params" value="false" />
-// Retrieval info: 	<generic name="gui_number_of_clocks" value="2" />
+// Retrieval info: 	<generic name="gui_number_of_clocks" value="1" />
 // Retrieval info: 	<generic name="gui_multiply_factor" value="1" />
 // Retrieval info: 	<generic name="gui_frac_multiply_factor" value="1" />
 // Retrieval info: 	<generic name="gui_divide_factor_n" value="1" />

@@ -18,10 +18,9 @@
 // Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module VGAOut(Clk, vga_h_sync, vga_v_sync, inDisplayArea, vblank, hblank, CounterX, CounterY);
+module VGAOut(Clk, vga_h_sync, vga_v_sync, vblank, hblank, CounterX, CounterY);
 input Clk;
-output vga_h_sync, vga_v_sync;
-output inDisplayArea;
+output reg vga_h_sync, vga_v_sync;
 output reg vblank;
 output reg hblank;
 output reg [15:0] CounterX;
@@ -34,12 +33,12 @@ always @(posedge Clk) begin
 	if(CounterXmaxed)
 		CounterX <= 15'd0;
 	else
-		CounterX <= CounterX + 1;
+		CounterX <= CounterX + 1'd1;
 end
 
 always @(posedge Clk) begin
 	if (CounterXmaxed) begin
-		CounterY <= CounterY + 1;
+		CounterY <= CounterY + 1'd1;
 		if (CounterY > 523)
 			CounterY <= 15'd0;
 	end
@@ -54,19 +53,16 @@ end
 
 //reg inDisplayArea;
 always @(posedge Clk) begin
-	vblank <= (CounterY > 478);
-	hblank <= (CounterX > 639);
+	reg hbl, vbl;
 
-	// if(inDisplayArea==0) begin
-	// 	inDisplayArea <= (CounterXmaxed) && (CounterY<480);
-	// end else begin
-	// 	inDisplayArea <= !(CounterX==639);
-	// end
+	vbl <= (CounterY > 479);
+	hbl <= (CounterX > 639);
+
+	vblank <= vbl;
+	hblank <= hbl;
+
+	vga_h_sync <= vga_HS;
+	if(~vga_h_sync & vga_HS) vga_v_sync <= vga_VS;
 end
-
-assign inDisplayArea = ~(vblank | hblank);
-
-assign vga_h_sync = vga_HS;
-assign vga_v_sync = vga_VS;
 
 endmodule

@@ -3,7 +3,6 @@ module TopModule(Clk,Button,sys_reset, vga_h_sync, vga_v_sync, vga_h_blank, vga_
 input Clk,Button,sys_reset;
 output vga_h_sync, vga_v_sync, vga_h_blank, vga_v_blank, vga_R, vga_G, vga_B ,Speaker;
 
-wire inDisplayArea;
 wire [15:0] CounterX;
 wire [15:0] CounterY;
 wire [24:0] Clks;
@@ -18,14 +17,13 @@ wire [2:0] background, onbackground_on, onbackground_off, bird_on, bird_off, pip
 	pipes2_on, pipes2_off, score_on, score_off, item_on, item_off, board_on, board_off;
 
 
-
+wire hblank, vblank;
 VGAOut syncgen(
 	.Clk(Clk),
 	.vga_h_sync(vga_h_sync),
 	.vga_v_sync(vga_v_sync),
-	.inDisplayArea(inDisplayArea),
-	.vblank(vga_v_blank),
-	.hblank(vga_h_blank),
+	.vblank(vblank),
+	.hblank(hblank),
 	.CounterX(CounterX),
 	.CounterY(CounterY)
 );
@@ -223,10 +221,13 @@ wire GLayer4 = (GLayer3 | score_on[1]) & ~score_off[1];
 wire BLayer4 = (BLayer3 | score_on[2]) & ~score_off[2];
 
 reg vga_R, vga_G, vga_B;
+reg vga_h_blank, vga_v_blank;
 always @(posedge Clk)
 	begin
 		vga_R <= RLayer4;
 		vga_G <= GLayer4;
 		vga_B <= BLayer4;
+		vga_h_blank <= hblank;
+		vga_v_blank <= vblank;
 	end
 endmodule
