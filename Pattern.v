@@ -37,7 +37,7 @@ begin
 	end
 
 	if (Random == 5) Random <= 1;
-	else Random <= Random + 1;
+	else Random <= Random + 1'd1;
 
 	if (Start == 0 && !Button) begin Start <= 1; Pattern <= Random; end
 

@@ -23,7 +23,7 @@ module DrawBackground(input clk, input [24:0] Clks,Status,CounterX,CounterY,outp
 reg [5:0] GrassPosition;
 always @ (posedge Clks[16])
 if (GrassPosition[4]==1) GrassPosition <= 0;
-else if (Status) GrassPosition <= GrassPosition + 1;
+else if (Status) GrassPosition <= GrassPosition + 1'd1;
 
 //////////////////////////////////////////////////////////////////////////////////
 reg Sky,Dirt,OnGrass,Grass,Ground,Cloud;
@@ -66,8 +66,8 @@ Ground <= (CounterX>=0) && (CounterX<=640) && (CounterY>=450) && (CounterY<=480)
 ||	(CounterX>=0*3) && (CounterX<=79*3) && (CounterY>=20*3) && (CounterY<=21*3);
 */
 
-R_Background = OnGrass | Ground;// | CounterX^CounterY;
-G_Background = Sky | Dirt | Grass | OnGrass | Ground;
-B_Background = Sky | OnGrass ;
+R_Background <= OnGrass | Ground;// | CounterX^CounterY;
+G_Background <= Sky | Dirt | Grass | OnGrass | Ground;
+B_Background <= Sky | OnGrass ;
 end
 endmodule

@@ -14,4 +14,3 @@ set_global_assignment -name VERILOG_FILE StatusChecker.v
 set_global_assignment -name VERILOG_FILE TopModule.v
 set_global_assignment -name VERILOG_FILE VGAOut.v
 set_global_assignment -name SYSTEMVERILOG_FILE FlappyBird.sv
-set_global_assignment -name SDC_FILE FlappyBird.sdc
