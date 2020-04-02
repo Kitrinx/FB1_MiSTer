@@ -1,23 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    07:01:28 04/23/2014
-// Design Name:
-// Module Name:    DrawPipes
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
 module DrawPipes2 (input clk, input [24:0] Clks,Reset,CounterX,CounterY,Button,Status,input [15:0] PipesLong,output reg R_Pipes_on,G_Pipes_on,B_Pipes_on,R_Pipes_off,G_Pipes_off,B_Pipes_off,output reg [15:0] PipesPosition);
 
 reg PipesBlackTop,PipesGreenTop,PipesGreenBodyTop,PipesBlackBodyTop,PipesBlackBot,PipesGreenBot,PipesGreenBodyBot,PipesBlackBodyBot;
@@ -27,27 +7,28 @@ reg [15:0] TopPipesPositionY;
 reg [15:0] BotPipesPositionY;
 reg Start = 0;
 
-always @ (posedge Clks[16])
-begin
+always @ (posedge clk) begin : pipes2
+	reg old_clks16;
+	old_clks16 <= Clks[16];
 
+	if (~old_clks16 && Clks[16]) begin
+		if (Start == 0 && !Button) Start <= 1;
 
-	if (Start == 0 && !Button) Start <= 1;
+		if (TopPipesPositionX == 0) TopPipesPositionX <= 640;
+		else if (Start && Status) TopPipesPositionX <= TopPipesPositionX - 1'd1;
 
-	if (TopPipesPositionX == 0) TopPipesPositionX <= 640;
-	else if (Start && Status) TopPipesPositionX <= TopPipesPositionX - 1'd1;
+		PipesPosition <= TopPipesPositionX;
+		TopPipesPositionY <= PipesLong;
+		BotPipesPositionX <= TopPipesPositionX;
+		BotPipesPositionY <= TopPipesPositionY + 16'd150;
 
-	PipesPosition <= TopPipesPositionX;
-	TopPipesPositionY <= PipesLong;
-	BotPipesPositionX <= TopPipesPositionX;
-	BotPipesPositionY <= TopPipesPositionY + 16'd150;
-
-	if (!Reset)
-	begin
-	TopPipesPositionX <= 960;
-	BotPipesPositionX <= 960;
-	Start <= 0;
+		if (!Reset)
+		begin
+		TopPipesPositionX <= 960;
+		BotPipesPositionX <= 960;
+		Start <= 0;
+		end
 	end
-
 end
 
 

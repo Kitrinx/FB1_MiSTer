@@ -1,22 +1,4 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    00:58:48 04/26/2014
-// Design Name:
-// Module Name:    DrawBoard
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
+
 //////////////////////////////////////////////////////////////////////////////////
 module DrawBoard(input clk, input [24:0] Clks,Reset,CounterX,CounterY,Button,Status,output reg R_Board_on,G_Board_on,B_Board_on,R_Board_off,G_Board_off,B_Board_off);
 

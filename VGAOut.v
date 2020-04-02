@@ -1,23 +1,4 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    04:44:19 04/23/2014
-// Design Name:
-// Module Name:    VGAOut
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 module VGAOut(Clk, vga_h_sync, vga_v_sync, vblank, hblank, CounterX, CounterY);
 input Clk;
 output reg vga_h_sync, vga_v_sync;

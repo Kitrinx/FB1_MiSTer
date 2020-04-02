@@ -1,26 +1,7 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    03:54:03 04/24/2014 
-// Design Name: 
-// Module Name:    StatusChecker 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
-module StatusChecker(input Reset,CounterX,input [15:0] R_Pipes_off,input [15:0] R_Pipes2_off,input [15:0] R_Bird_off,output reg Status);
+
+module StatusChecker(input clk, input Reset,CounterX,input [15:0] R_Pipes_off,input [15:0] R_Pipes2_off,input [15:0] R_Bird_off,output reg Status);
 initial Status = 1;
-always @ (posedge CounterX)
+always @ (posedge clk)
 begin
 
 if (!Reset) Status <= 1;

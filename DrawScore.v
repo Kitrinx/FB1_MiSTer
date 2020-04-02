@@ -1,23 +1,4 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    18:17:51 04/23/2014
-// Design Name:
-// Module Name:    DrawScore
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module DrawScore(
 	input clk,
 	input [24:0] Clks,
@@ -46,25 +27,30 @@ reg ZeroBlack,ZeroWhite,OneBlack,OneWhite,TwoBlack,TwoWhite,ThreeBlack,ThreeWhit
 reg ScoreWhiteUnit,ScoreBlackUnit,ScoreWhiteTen,ScoreBlackTen;
 
 
-always @ (posedge Clks[16]) begin
-	if (!Reset) begin
-		ScorePositionX <= 320;
-		ScorePositionY <= 50;
-		Ten <= 0;
-		Unit <= 0;
-	end
+always @ (posedge clk) begin : score1
+	reg old_clks16;
+	old_clks16 <= Clks[16];
 
-
-	if (PipesPosition1 == 10 || PipesPosition2 == 10) begin
-		if (Unit == 9) begin
-			Ten <= Ten + 1'd1;
+	if (~old_clks16 && Clks[16]) begin
+		if (!Reset) begin
+			ScorePositionX <= 320;
+			ScorePositionY <= 50;
+			Ten <= 0;
 			Unit <= 0;
-		end else if (Ten == 10) begin
-			Ten <= 0; Unit <= Unit + 1'd1;
-		end else Unit <= Unit + 1'd1;
-	end
+		end
 
-	if (Status == 0) ScorePositionY <= 185;
+
+		if (PipesPosition1 == 10 || PipesPosition2 == 10) begin
+			if (Unit == 9) begin
+				Ten <= Ten + 1'd1;
+				Unit <= 0;
+			end else if (Ten == 10) begin
+				Ten <= 0; Unit <= Unit + 1'd1;
+			end else Unit <= Unit + 1'd1;
+		end
+
+		if (Status == 0) ScorePositionY <= 185;
+	end
 end
 
 always @ (posedge clk) begin

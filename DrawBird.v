@@ -1,23 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    05:56:53 04/23/2014
-// Design Name:
-// Module Name:    DrawBird
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
 module DrawBird(input clk, input [24:0] Clks,Reset,CounterX,CounterY,Button,Status,output reg R_Bird_on,G_Bird_on,B_Bird_on,R_Bird_off,G_Bird_off,B_Bird_off);
 //////////////////////////////////////////////////////////////////////////////////
 reg [15:0] BirdPositionX = 100;
@@ -27,8 +7,10 @@ reg [15:0] ForceUp = 0;
 reg [15:0] BirdAnimation = 0;
 reg Start = 0;
 
-always @ (posedge Clks[18])
-begin
+always @ (posedge clk) begin : bird1
+	reg old_clks18;
+	old_clks18 <= Clks[18];
+	if (~old_clks18 && Clks[18]) begin
 		if (!Reset)
 		begin
 		BirdPositionX <= 100;
@@ -52,14 +34,18 @@ begin
 			if (Gravity<10) Gravity <= Gravity + 1'd1;
 			end
 		else if(BirdPositionY < 8) BirdPositionY <= 8;
+	end
 end
 //////////////////////////////////////////////////////////////////////////////////
-always @ (posedge Clks[20])
-begin
+always @ (posedge clk) begin : bird2
+	reg old_clk20;
+	old_clk20 <= Clks[20];
+	if (~old_clk20 && Clks[20]) begin
 		if (BirdAnimation == 2 || !Reset) BirdAnimation <= 0;
 		else if (Gravity > 0 && Status == 0) BirdAnimation <= 3;
 		else if (Gravity > 0) BirdAnimation <= 0;
 		else if (BirdAnimation < 2) BirdAnimation <= BirdAnimation + 1'd1;
+	end
 end
 //////////////////////////////////////////////////////////////////////////////////
 reg BirdBlack,BirdWhite,BirdYellow,BirdRed;
